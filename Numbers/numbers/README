@@ -1,0 +1,18 @@
+Te he realizado varias versiones con correcciones, pero vaya
+por delante que el ejercicio está bien —como no podría ser de otro
+modo, es muy simple:
+
+:01:
+  Ese es el estilo que yo le daría.
+
+:02:
+  Los comentarios yo los escribiría así... no es que los tuyos estén
+  mal ni mucho menos, simplemente de esta forma pueden ser
+  todo lo largos que quieras sin hacer las líneas demasiado
+  largas, y todos ellos tendrán siempre el mismo aspecto.
+  
+  He eliminado los comentarios sobre las impresiones, todos sabemos lo que
+  hace `printf` —al menos lo básico... xDD.
+  
+  También he cambiado `number_med` por `number_avg` —la media en inglés
+  de toda la vida se abrevia como `avg`, por *avegare*.

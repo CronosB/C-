@@ -4,77 +4,61 @@
 
 using namespace std;
 
-void screenOut ( int argumentsCount, char **string );
 
-void reversedArguments ( int argumentsCount, char **string );
+struct prototypeString {
+
+  char *originalString;
+
+  char *reversedString;
+
+  int argumetsUsefullCount;
+
+  int *lenghtString;
+
+};
+
+
+struct prototypeString *memoryRequest ( int argumentsCount );
+
+void memoryRelease ( prototypeString *userString );
+
 
 
 int main ( int argc, char *argv[] ) {
 
 
-  screenOut ( argc, argv );
+  prototypeString *userString = 0;
 
-  reversedArguments ( argc, argv );
+  userString = memoryRequest ( argc );
 
+  memoryRelease ( userString );
 
   return 0;
 
 }
 
 
+struct prototypeString *memoryRequest ( int argumentsCount ) {
 
-void screenOut ( int argumentsCount, char **string ) {
+  prototypeString *userString = 0;
 
-  for ( int i = 1; i < argumentsCount; i++ ) {
+  int userUsefullArguments = argumentsCount - 1;
 
-    cout << string[i] << endl;
 
-  }
+  userString = new prototypeString [ userUsefullArguments ];
+
+  userString[0].argumetsUsefullCount = userUsefullArguments;
+
+
+  return userString;
 
 }
 
 
-void reversedArguments ( int argumentsCount, char **string ) {
+void memoryRelease ( prototypeString *userString ) {
 
-  char **reversedString = new char *[argumentsCount];
+//  int userUsefullArguments = userString[0].argumetsUsefullCount;
 
-  int *lenghtString = new int [argumentsCount];
-
-
-  for( int i = 0; i < argumentsCount; i++ ) {
-
-    lenghtString [i] = strlen ( string [i] );
-
-  }
-
-  for ( int i = 0; i < argumentsCount; i++ ) {
-
-    reversedString [i] = new char [lenghtString[i]];
-
-  }
-
-
-  for ( int i = 0; i < argumentsCount; i++ ) {
-
-    for ( int j = 0; j < lenghtString [i]; j++ ) {
-
-      reversedString [i][j] = string [i][lenghtString [i] - ( j + 1 )];
-
-    }
-
-  }
-
-  screenOut ( argumentsCount, reversedString );
-
-
-  for( int i = 0; i < argumentsCount; i++ ) {
-
-    delete [] reversedString [i];
-
-  }
-
-  delete [] lenghtString;
-
-  delete [] reversedString;
+  delete [] userString;
 
 }

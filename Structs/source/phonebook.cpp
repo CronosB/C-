@@ -4,11 +4,11 @@
 
 struct phonebook {
 
-	int numberEntries;
-
 	char name [15];
 
 	int number;
+	
+	int numberEntries;	
 
 };
 
@@ -18,15 +18,15 @@ void menu ();
 
 bool checkOption ( char option );
 
-void texts ( char choiceText );
+void textsCollection ( char choiceText );
 
 void releaseBufferInput ();
 
 struct phonebook *dataEntry ();
 
-void searchNumber ( struct phonebook *userPhonebook );
+void searchByNumber ( struct phonebook *userPhonebook );
 
-void searchName ( struct phonebook *userPhonebook );
+void searchByName ( struct phonebook *userPhonebook );
 
 
 
@@ -49,12 +49,12 @@ void menu () {
 
 	phonebook *userPhonebook = 0;
 
-	bool checkUsed = false;
+	bool checkIntroducedData = false;
 
 
 	while ( userOption != 'q' ) {
 
-		texts ( 'm' );
+		textsCollection ( 'm' );
 
 		userOption = getchar ();
 
@@ -67,7 +67,7 @@ void menu () {
 
 		while ( checkUserOption ) {
 
-			texts ( 'e' );
+			textsCollection ( 'e' );
 
 			userOption = getchar ();
 
@@ -82,11 +82,11 @@ void menu () {
 
 			case 'a':
 
-				if ( checkUsed == false ) {
+				if ( checkIntroducedData == false ) {
 
 					userPhonebook = dataEntry ();
 
-					checkUsed = true;
+					checkIntroducedData = true;
 
 					break;
 
@@ -94,7 +94,7 @@ void menu () {
 
 			else {
 
-				texts ( 'u' );
+				textsCollection ( 'u' );
 
 				break;
 
@@ -103,9 +103,9 @@ void menu () {
 
 			case 'b':
 
-				if ( checkUsed ) {
+				if ( checkIntroducedData ) {
 
-					searchNumber ( userPhonebook );
+					searchByNumber ( userPhonebook );
 
 					break;
 
@@ -113,7 +113,7 @@ void menu () {
 
 				else {
 
-					texts ( 'z' );
+					textsCollection ( 'z' );
 
 					break;
 
@@ -122,16 +122,16 @@ void menu () {
 
 			case 'c':
 
-				if ( checkUsed ) {
+				if ( checkIntroducedData ) {
 
-					searchName ( userPhonebook );
+					searchByName ( userPhonebook );
 
 					break;
 				}
 
 				else {
 
-					texts ( 'z' );
+					textsCollection ( 'z' );
 
 					break;
 
@@ -140,9 +140,9 @@ void menu () {
 
 			case 'q':
 
-				texts ( 'g' );
+				textsCollection ( 'g' );
 
-				if ( checkUsed ) {
+				if ( checkIntroducedData ) {
 
 					delete [] userPhonebook;
 
@@ -187,7 +187,7 @@ bool checkOption ( char option ) {
 "z" para informar que no se han introducido datos.
 */
 
-void texts ( char choiceText ) {
+void textsCollection ( char choiceText ) {
 
 
 	switch ( choiceText ) {
@@ -275,7 +275,7 @@ struct phonebook *dataEntry () {
 
 
 
-	texts ( 'd' );
+	textsCollection ( 'd' );
 
 	scanf ( "%d", &numberEntries);
 
@@ -292,14 +292,14 @@ struct phonebook *dataEntry () {
 
 	for ( int i = 0; i < numberEntries; i++ ) {
 
-		texts ( 'l' );
+		textsCollection ( 'l' );
 
 		scanf ( "%15s", userPhonebook[i].name );
 
 		releaseBufferInput ();
 
 
-		texts ( 'n' );
+		textsCollection ( 'n' );
 
 		scanf ( "%9d", &userPhonebook[i].number );
 
@@ -315,14 +315,14 @@ struct phonebook *dataEntry () {
 
 //Esta función compara dentro del array del struct el campo del nombre con el nombre que introduce el usuario e imprime el número de la misma posición dentro de ese array.
 
-void searchNumber ( struct phonebook *userPhonebook ) {
+void searchByNumber ( struct phonebook *userPhonebook ) {
 
 	int numberEntries = userPhonebook[0].numberEntries;
 
 	char name[15];
 
 
-	texts ( 'l' );
+	textsCollection ( 'l' );
 
 
 	scanf ( "%15s", name );
@@ -346,14 +346,14 @@ void searchNumber ( struct phonebook *userPhonebook ) {
 
 //Esta función compara dentro del array del struct el campo del número con el número que introduce el usuario e imprime el nombre de la misma posición dentro de ese array.
 
-void searchName ( struct phonebook *userPhonebook ) {
+void searchByName ( struct phonebook *userPhonebook ) {
 
 	int numberEntries = userPhonebook[0].numberEntries;
 
 	int number;
 
 
-	texts ( 'n' );
+	textsCollection ( 'n' );
 
 
 	scanf ( "%d", &number );

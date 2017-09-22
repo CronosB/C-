@@ -1,2 +1,2 @@
 all:
-	g++ -Wall Ejercicio1.cpp -o Ejercicio1
+	g++ -Wall ./source/phonebook.cpp -o ./bin/phonebook

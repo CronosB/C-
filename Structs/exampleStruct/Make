@@ -1,0 +1,2 @@
+all:
+	g++ -Wall ./source/exampleStruct.cpp -o ./bin/exampleStruct

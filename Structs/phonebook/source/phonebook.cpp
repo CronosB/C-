@@ -2,13 +2,18 @@
 #include <string.h>
 
 
-struct phonebook {
 
-	char name [15];
+struct phonebookEntry {
 
-	int number;
-	
-	int numberEntries;	
+	int numberEntries;
+
+	struct phonebook {
+
+		char name [15];
+
+		int number;
+
+	};
 
 };
 

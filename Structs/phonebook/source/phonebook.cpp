@@ -15,7 +15,7 @@ struct phonebookEntry {
 struct phonebook {
 
 	int numberEntries;
-	
+
 	phonebookEntry *userPhonebookEntry;
 
 };
@@ -30,11 +30,11 @@ void textsCollection ( char choiceText );
 
 void releaseBufferInput ();
 
-struct phonebook *dataEntry ();
+phonebook dataEntry ();
 
-void searchByNumber ( struct phonebook *userPhonebook );
+void searchByNumber ( phonebook userPhonebook );
 
-void searchByName ( struct phonebook *userPhonebook );
+void searchByName ( phonebook userPhonebook );
 
 
 
@@ -54,7 +54,7 @@ void menu () {
 	char userOption = 0;
 
 	bool checkUserOption = false;
-	
+
 	phonebook userPhonebook;
 
 	bool checkIntroducedData = false;
@@ -277,14 +277,14 @@ void releaseBufferInput () {
 
 //Esta función recoge la cantidad de datos que introducirá el usuario y los correspondientes nombres y números.
 
-struct phonebook *dataEntry () {
+phonebook dataEntry () {
 
 	phonebook userPhonebook;
-	
-	
+
+
 	textsCollection ( 'd' );
 
-	scanf ( "%d", userPhonebook.numberEntries );
+	scanf ( "%d", &userPhonebook.numberEntries );
 
 	releaseBufferInput ();
 
@@ -296,7 +296,7 @@ struct phonebook *dataEntry () {
 
 		textsCollection ( 'l' );
 
-		scanf ( "%15s", &userPhonebook.userPhonebookEntry[i].name );
+		scanf ( "%15s", userPhonebook.userPhonebookEntry[i].name );
 
 		releaseBufferInput ();
 
@@ -317,7 +317,7 @@ struct phonebook *dataEntry () {
 
 //Esta función compara dentro del array del struct el campo del nombre con el nombre que introduce el usuario e imprime el número de la misma posición dentro de ese array.
 
-void searchByNumber ( struct phonebook *userPhonebook ) {
+void searchByNumber ( phonebook userPhonebook ) {
 
 	int numberEntries = userPhonebook.numberEntries;
 
@@ -336,7 +336,7 @@ void searchByNumber ( struct phonebook *userPhonebook ) {
 
 	 if ( strcmp ( name, userPhonebook.userPhonebookEntry[i].name ) == 0 ) {
 
-		 printf ( "El número correspondiente a %s es el %d. \n", userPhonebook.userPhonebookEntry[i].name, userPhonebook[i].number );
+		 printf ( "El número correspondiente a %s es el %d. \n", name, userPhonebook.userPhonebookEntry[i].number );
 
 	 }
 
@@ -348,7 +348,7 @@ void searchByNumber ( struct phonebook *userPhonebook ) {
 
 //Esta función compara dentro del array del struct el campo del número con el número que introduce el usuario e imprime el nombre de la misma posición dentro de ese array.
 
-void searchByName ( struct phonebook *userPhonebook ) {
+void searchByName ( phonebook userPhonebook ) {
 
 	int numberEntries = userPhonebook.numberEntries;
 

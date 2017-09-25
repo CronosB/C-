@@ -2,18 +2,21 @@
 #include <string.h>
 
 
-
 struct phonebookEntry {
 
+	char name [15];
+
+	int number;
+
+};
+
+
+
+struct phonebook {
+
 	int numberEntries;
-
-	struct phonebook {
-
-		char name [15];
-
-		int number;
-
-	};
+	
+	phonebookEntry *userPhonebookEntry;
 
 };
 
@@ -51,8 +54,8 @@ void menu () {
 	char userOption = 0;
 
 	bool checkUserOption = false;
-
-	phonebook *userPhonebook = 0;
+	
+	phonebook userPhonebook;
 
 	bool checkIntroducedData = false;
 
@@ -149,7 +152,7 @@ void menu () {
 
 				if ( checkIntroducedData ) {
 
-					delete [] userPhonebook;
+					delete [] userPhonebook.userPhonebookEntry;
 
 				}
 
@@ -276,37 +279,31 @@ void releaseBufferInput () {
 
 struct phonebook *dataEntry () {
 
-	int numberEntries = 0;
-
-
-
+	phonebook userPhonebook;
+	
+	
 	textsCollection ( 'd' );
 
-	scanf ( "%d", &numberEntries);
+	scanf ( "%d", userPhonebook.numberEntries );
 
 	releaseBufferInput ();
 
 
-	phonebook *userPhonebook = 0;
-
-	userPhonebook = new phonebook [numberEntries];
+	userPhonebook.userPhonebookEntry = new phonebookEntry [userPhonebook.numberEntries];
 
 
-	userPhonebook[0].numberEntries = numberEntries;
-
-
-	for ( int i = 0; i < numberEntries; i++ ) {
+	for ( int i = 0; i < userPhonebook.numberEntries; i++ ) {
 
 		textsCollection ( 'l' );
 
-		scanf ( "%15s", userPhonebook[i].name );
+		scanf ( "%15s", &userPhonebook.userPhonebookEntry[i].name );
 
 		releaseBufferInput ();
 
 
 		textsCollection ( 'n' );
 
-		scanf ( "%9d", &userPhonebook[i].number );
+		scanf ( "%9d", &userPhonebook.userPhonebookEntry[i].number );
 
 		releaseBufferInput ();
 
@@ -322,7 +319,7 @@ struct phonebook *dataEntry () {
 
 void searchByNumber ( struct phonebook *userPhonebook ) {
 
-	int numberEntries = userPhonebook[0].numberEntries;
+	int numberEntries = userPhonebook.numberEntries;
 
 	char name[15];
 
@@ -337,9 +334,9 @@ void searchByNumber ( struct phonebook *userPhonebook ) {
 
 	for ( int i = 0; i < numberEntries; i++ ) {
 
-	 if ( strcmp ( name, userPhonebook[i].name ) == 0 ) {
+	 if ( strcmp ( name, userPhonebook.userPhonebookEntry[i].name ) == 0 ) {
 
-		 printf ( "El número correspondiente a %s es el %d. \n", userPhonebook[i].name, userPhonebook[i].number );
+		 printf ( "El número correspondiente a %s es el %d. \n", userPhonebook.userPhonebookEntry[i].name, userPhonebook[i].number );
 
 	 }
 
@@ -353,7 +350,7 @@ void searchByNumber ( struct phonebook *userPhonebook ) {
 
 void searchByName ( struct phonebook *userPhonebook ) {
 
-	int numberEntries = userPhonebook[0].numberEntries;
+	int numberEntries = userPhonebook.numberEntries;
 
 	int number;
 
@@ -368,9 +365,9 @@ void searchByName ( struct phonebook *userPhonebook ) {
 
 	for ( int i = 0; i < numberEntries; i++ ) {
 
-		if ( number == userPhonebook[i].number ) {
+		if ( number == userPhonebook.userPhonebookEntry[i].number ) {
 
-			printf ( "El nombre correspondiente al número %d, es de %s. \n", number, userPhonebook[i].name );
+			printf ( "El nombre correspondiente al número %d, es de %s. \n", number, userPhonebook.userPhonebookEntry[i].name );
 
 		}
 

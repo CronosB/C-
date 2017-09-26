@@ -1,2 +1,2 @@
 all:
-	g++ -Wall ./source/stringReversed.cpp -o ./bin/stringReversed
+	g++ -Wall ./source/reversedStrings.cpp -o ./bin/reversedStrings

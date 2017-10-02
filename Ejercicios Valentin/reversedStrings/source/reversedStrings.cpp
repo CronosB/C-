@@ -88,9 +88,9 @@ strings memoryRequest ( int argumentsCount, char **arguments ) {
 
   for ( int i = 0; i < userStrings.userUsefullArguments; i++ ) {
 
-    userStrings.userStringsEntry[i].originalString = new char [ userStrings.userStringsEntry[i].lenghtString ];
+    userStrings.userStringsEntry[i].originalString = new char [ userStrings.userStringsEntry[i].lenghtString + 1 ];
 
-    userStrings.userStringsEntry[i].finalString = new char [ userStrings.userStringsEntry[i].lenghtString ];
+    userStrings.userStringsEntry[i].finalString = new char [ userStrings.userStringsEntry[i].lenghtString + 1 ];
 
   }
 

@@ -1,74 +1,93 @@
 #include <stdio.h>
 
-char increment (char* number, int numberlength, int numberposition);
+const int NUMBER_LENGTH = 10;
 
-int main(){
-	
-	const int NUMBER_LENGTH = 10;
-	
+bool increment (char* number);
+
+int main (){
+
 	char numberEntry[NUMBER_LENGTH];
 	
-	int numberPosition = NUMBER_LENGTH;
-
-	printf("Introduce un número con un máximo de 9 dígitos para que el mismo se incremente. \n");
-	
-	scanf("%10s", numberEntry);
-
-/*
- * Esta sentencia recoge en la variable numberPosition la posicion del caracter de fin de cadena.
- * 
- */
-
-	for(int i = 0; i < NUMBER_LENGTH; i++){
+	for(int h = 0; h <= NUMBER_LENGTH; h++){
 		
-		if(numberEntry[i] == '\000'){
+		numberEntry[h] = '\000';
+		
+	}
+		
+	printf("Introduce un numero de máximo 10 cifras. \n");
+		
+	scanf("%9s", numberEntry);
+
+	if(increment(numberEntry)){
+	
+		printf("%s. \n", numberEntry);
+	
+	}
+	else{
+		
+		printf("No es un número lo que has introducido. \n");
+	}
+
+	return 0;
+}
+
+bool increment (char* number){
+	
+	int numberControl = 0;
+	
+	for(int j = 0; j < NUMBER_LENGTH; j++){
+		
+		if(number[j] == '\000'){
 			
-			numberPosition = i;
+			continue;
+					
+		}
+		
+		if(number[j] < '0' || number[j] > '9'){
+				
+			return false;
+				
 		}
 	}
 	
-	printf("NumberPosition %d \n", numberPosition);
+	for(int i = NUMBER_LENGTH; i >= 0; i--){
 	
-	increment(numberEntry, NUMBER_LENGTH, numberPosition);
-	
-	return 0;
-	
-}
-
-char increment (char* number, int number_length, int numberposition){
-
-	int a = 0;
-
-/*
- * Esta sentencia comprueba la posicion inicial: si es un 9 incrementa la unidad siguiente, si no la misma. Si ademas los numeros introducidos son todos 9 reinicia la cadena desde 0. Se usa a variable a como control para comprobar si la cifra anterior era un 9 y "se incremento" para así incrementarse en una unidad.
- * 
- */
-	if(number[numberposition - 1] == '9'){
-	
-		for(int j = (numberposition - 1); j >= 0; j--){
-		
-			if (a == 0){
+		if(number[i] == '\000'){
 			
-				if(number[j] == '9'){
+			continue;
+					
+		}
+			
+		if(number[i] == '9'){
+			
+			number[i] = '0';
+			
+			numberControl++;
+			
+			if(i == 0){
 				
-					number[j] = '0';
+				number[0] = '1';
+				
+				number[numberControl] = '0';
+				
+				if(number[NUMBER_LENGTH - 1] == '0'){
+				
+					number[0] = '0';
 					
-					a = 0;
-				}
-				else{
+					number[1] = '\000';
 					
-					number[j]++;
-									
-					a = 1;
 				}
 			}
 		}
-	}
-	else{		
-		
-		number[numberposition - 1]++;
-	}
-	
-	printf("%s. \n", number);
-}
+		else{
+			
+			number[i]++;			
+			break;
+			
+		}
 
+	}
+		
+	return true;
+	
+}

@@ -96,13 +96,7 @@ strings memoryRequest ( int argumentsCount, char **arguments ) {
 
   for ( int i = 0; i < userStrings.userUsefullArguments; i++ ) {
 
-    for ( int j = 0; j < userStrings.userStringsEntry[i].lenghtString; j++ ) {
-
-      //Se desecha el primer argumento por ser el que pertenece al nombre del programa.
-
-      userStrings.userStringsEntry[i].originalString[j] = arguments[i + 1][j];
-
-    }
+    strcpy ( userStrings.userStringsEntry[i].originalString, arguments[i + 1] );
 
   }
 
@@ -142,6 +136,12 @@ strings reverseString ( strings userStrings ) {
   for ( int i = 0; i < userStrings.userUsefullArguments; i++ ) {
 
     for ( int j = 0; j < userStrings.userStringsEntry[i].lenghtString; j++ ) {
+
+      if ( j + 1 == userStrings.userStringsEntry[i].lenghtString ) {
+
+        userStrings.userStringsEntry[i].finalString[j + 1] = '\000';
+
+      }
 
       userStrings.userStringsEntry[i].finalString[j] =
         userStrings.userStringsEntry[i].originalString[ userStrings.userStringsEntry[i].lenghtString - 1 - j];

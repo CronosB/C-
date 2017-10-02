@@ -144,8 +144,7 @@ strings reverseString ( strings userStrings ) {
     for ( int j = 0; j < userStrings.userStringsEntry[i].lenghtString; j++ ) {
 
       userStrings.userStringsEntry[i].finalString[j] =
-
-      userStrings.userStringsEntry[i].originalString[ userStrings.userStringsEntry[i].lenghtString - 1 - j];
+        userStrings.userStringsEntry[i].originalString[ userStrings.userStringsEntry[i].lenghtString - 1 - j];
 
     }
 

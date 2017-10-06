@@ -15,14 +15,14 @@ struct numbersEntry {
 
   long int cubeNumber;
 
+  bool check;
+
 };
 
 
 struct numbers {
 
 	int userUsefullArguments;
-
-	bool *check;
 
 	numbersEntry *userNumbersEntry;
 
@@ -43,14 +43,14 @@ void printScreen ( numbers userNumbers );
 
 long int conversion ( char *argument );
 
-bool *entryDataCheck ( int argumentsCount, const char **arguments );
+bool entryDataCheck ( const char *arguments );
 
 
 
 
 int main ( int argc, char const *argv[] ) {
 
-	
+
 	if ( argc == 1 ) {
 
 		cout << "No has introducido ningún argumento." << endl;
@@ -58,7 +58,7 @@ int main ( int argc, char const *argv[] ) {
 		return 0;
 
 	}
-  
+
 
 
 	numbers userNumbers;
@@ -85,23 +85,25 @@ int main ( int argc, char const *argv[] ) {
 numbers assignArguments ( int argumentsCount, const char **arguments ) {
 
 	numbers userNumbers;
-	
+
 	userNumbers.userUsefullArguments = argumentsCount - 1;
 
 	userNumbers.userNumbersEntry = new numbersEntry [userNumbers.userUsefullArguments];
 
-	userNumbers.check = entryDataCheck ( argumentsCount, arguments );
-	
+
 	for ( int i = 0; i < userNumbers.userUsefullArguments; i++ ) {
-	  
-		if ( userNumbers.check ) {
+
+    userNumbers.userNumbersEntry[i].check = entryDataCheck ( arguments[i + 1] );
+
+
+    if ( userNumbers.userNumbersEntry[i].check ) {
 
 			//Se le suma uno a arguments para obviar el nombre del programa.
-		
+
 			userNumbers.userNumbersEntry[i].originalNumber = atol (arguments[i + 1]);
-			
+
 		}
-	
+
 	}
 
   return userNumbers;
@@ -118,8 +120,6 @@ void releaseMemory ( numbers userNumbers ) {
 
 	delete [] userNumbers.userNumbersEntry;
 
-	delete [] userNumbers.check;
-	
 }
 
 
@@ -155,15 +155,15 @@ numbers operations ( numbers userNumbers ) {
 
   for ( int i = 0; i < userNumbers.userUsefullArguments; i++ ) {
 
-	if ( userNumbers.check[i] ) {
+	if ( userNumbers.userNumbersEntry[i].check ) {
 
 		userNumbers.userNumbersEntry[i].squaredNumber =
 
-		square ( userNumbers.userNumbersEntry[i].originalNumber );
+		  square ( userNumbers.userNumbersEntry[i].originalNumber );
 
 		userNumbers.userNumbersEntry[i].cubeNumber =
 
-		cube ( userNumbers.userNumbersEntry[i].originalNumber );
+		  cube ( userNumbers.userNumbersEntry[i].originalNumber );
 
 	}
 
@@ -182,8 +182,8 @@ void printScreen ( numbers userNumbers ) {
 
 	for ( int i = 0; i < userNumbers.userUsefullArguments; i++ ) {
 
-		if ( userNumbers.check[i] ) {
-		
+		if ( userNumbers.userNumbersEntry[i].check ) {
+
 			cout << userNumbers.userNumbersEntry[i].originalNumber << endl;
 
 			cout << userNumbers.userNumbersEntry[i].squaredNumber << endl;
@@ -191,9 +191,9 @@ void printScreen ( numbers userNumbers ) {
 			cout << userNumbers.userNumbersEntry[i].cubeNumber << endl;
 
 		} else {
-			
+
 			cout << "Este número no es valido." << endl;
-			
+
 		}
 
 		if ( i + 1 != userNumbers.userUsefullArguments ) cout << endl;
@@ -206,55 +206,26 @@ void printScreen ( numbers userNumbers ) {
 
 /*
  * Esta función comprueba que se introducen números y no otros carácteres.
- * 
+ *
 */
 
-bool *entryDataCheck ( int argumentsCount, const char **arguments ) {
-	
-	int usefullArguments = argumentsCount - 1;
-	
-	int *argumentLength = new int [usefullArguments]; 
-	
-	bool *check = new bool [usefullArguments];
-	
-	
-	/*
-	 * Inicio ambas iteraciones en 1 para ignorar el primer argumento que es el del
-	 * propio programa. Además resto otro 1 a argumentLength y check para que inicien desde
-	 * la posición cero.
-	 */
-	
-	for ( int i = 1; i < argumentsCount; i++ ) {
-		
-		argumentLength[i - 1] = strlen ( arguments[i] );
-		
-	}
-	
-	
-	for ( int i = 1; i < argumentsCount; i++ ) {
-		
-		for ( int j = 0; j < argumentLength[i - 1]; j++ ) {
-			
-			if ( arguments[i][j] < 48 || arguments[i][j] > 57 ) {
-				
-				check[i - 1] = false;
-				
-				break;
-				
-			} else {
-				
-				check[i - 1] = true;
-				
-			}
-			
+bool entryDataCheck ( const char *argument ) {
+
+	bool check = true;
+
+
+	for ( int i = 0; i < ( strlen ( argument ) ); i++ ) {
+
+  	if ( !isdigit ( argument[i] ) ) {
+
+			check = false;
+
+			break;
+
 		}
-		
+
 	}
-	
-
-	delete [] argumentLength;
-
 
 	return check;
-	
+
 }

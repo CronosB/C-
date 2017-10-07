@@ -52,7 +52,7 @@ void printScreen ( const char **argument ) {
 
       if ( polygon[i][j] ) {
 
-        cout << "o ";
+        cout << ". ";
 
       } else {
 

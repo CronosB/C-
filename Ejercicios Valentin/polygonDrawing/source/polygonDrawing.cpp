@@ -85,6 +85,8 @@ bool isNumber ( const char **userArguments ){
 polygon *reserveMemory ( const char **userArguments ) {
 
   polygon *userPolygon = NULL;
+  
+  userPolygon = new polygon;
 
   userPolygon->base = atoi ( userArguments[2] );
 
@@ -115,6 +117,8 @@ void freeMemory ( polygon *userPolygon ) {
   }
 
   delete[] userPolygon->polygon;
+  
+  delete [] userPolygon;
 
 }
 
@@ -158,9 +162,9 @@ void choicePolygon ( const char **userArguments ) {
 
       userPolygon = reserveMemory ( userArguments );
 
-    //  drawPolygon ( square ( userPolygon ) );
+      drawPolygon ( square ( userPolygon ) );
 
-    //  freeMemory ( userPolygon );
+      freeMemory ( userPolygon );
 
     break;
 
@@ -181,15 +185,17 @@ polygon *square ( polygon *userPolygon ) {
 
   for ( int i = 0; i <  userPolygon->base; i++ ) {
 
-    for ( int j = 0; j < userPolygon->base; j++ ) {
+    for ( int j = 0; j < userPolygon->height; j++ ) {
 
+		userPolygon->polygon[i][j] = false;
+    
       if ( i == 0 || ( i + 1 ) == userPolygon->base ) {
 
         userPolygon->polygon[i][j] = true;
 
       }
 
-      if ( j == 0 || ( j + 1 ) == userPolygon->base ) {
+      if ( j == 0 || ( j + 1 ) == userPolygon->height ) {
 
         userPolygon->polygon[i][j] = true;
 

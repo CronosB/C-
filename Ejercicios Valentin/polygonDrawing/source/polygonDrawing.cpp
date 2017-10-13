@@ -39,14 +39,11 @@ void drawPolygon ( polygon *userPolygon );
 
 int main(int argc, char const *argv[]) {
 
-  if ( !checkData ( argc, argv[2], argv[3] ) ) {
+  if ( checkData ( argc, argv[2], argv[3] ) ) {
 
-    return 0;
+    choicePolygon ( reserveMemory ( argv[1], argv[2], argv[3] ) );
 
   }
-
-  choicePolygon ( reserveMemory ( argv[1], argv[2], argv[3] ) );
-
 
   return 0;
 

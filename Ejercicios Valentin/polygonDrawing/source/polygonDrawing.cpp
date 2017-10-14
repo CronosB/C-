@@ -20,13 +20,31 @@ struct polygon {
 
 
 
+const int polygonsLength = 3;
+
+const int polygonLength = 9;
+
+
+enum polygonList {
+
+  squarePolygon,
+
+  rectanglePolygon,
+
+  trianglePolygon
+
+};
+
+
+
+
 bool isNumber ( const char **userArguments );
 
-polygon *reserveMemory ( const char *typePolygon, const char *base, const char *height );
+polygon *reserveMemory ( const char *polygonType, const char *base, const char *height );
 
 void freeMemory ( polygon *userPolygon );
 
-bool checkData ( int argumentsLenght, const char *base, const char *height );
+bool checkData ( int argumentsLenght, const char *polygonType, const char *base, const char *height );
 
 void choicePolygon ( polygon *userPolygon );
 
@@ -34,12 +52,16 @@ polygon *square ( polygon *userPolygon );
 
 void drawPolygon ( polygon *userPolygon );
 
+int searchPolygon ( const char *typePolygon );
+
+bool isPolygon ( const char* polygon );
+
 
 
 
 int main(int argc, char const *argv[]) {
 
-  if ( checkData ( argc, argv[2], argv[3] ) ) {
+  if ( checkData ( argc, argv[1], argv[2], argv[3] ) ) {
 
     choicePolygon ( reserveMemory ( argv[1], argv[2], argv[3] ) );
 
@@ -134,11 +156,19 @@ void freeMemory ( polygon *userPolygon ) {
  */
 
 
-bool checkData ( int argumentsLenght, const char *base, const char *height ) {
+bool checkData ( int argumentsLenght, const char *polygonType, const char *base, const char *height ) {
 
   if ( !( argumentsLenght == 4 ) ) {
 
-    cout << "Has introducido más datos de los necesarios." << endl;
+    cout << "No has introducido los datos correctos." << endl;
+
+    return false;
+
+  }
+
+  if ( !isPolygon ( polygonType ) ) {
+
+    cout << "La figura que has introducido no es un polígono o no puedo dibujarla." << endl;
 
     return false;
 
@@ -166,13 +196,11 @@ bool checkData ( int argumentsLenght, const char *base, const char *height ) {
 
 void choicePolygon ( polygon *userPolygon ) {
 
-  char userPolygonType = 's';
+
+  switch ( searchPolygon ( userPolygon->polygonType ) ) {
 
 
-  switch ( userPolygonType ) {
-
-
-    case square:
+    case squarePolygon:
 
       if ( userPolygon->base != userPolygon->height ) {
 
@@ -187,7 +215,7 @@ void choicePolygon ( polygon *userPolygon ) {
       break;
 
 
-    case rectangle:
+    case rectanglePolygon:
 
       if ( userPolygon->base == userPolygon->height ) {
 
@@ -202,7 +230,7 @@ void choicePolygon ( polygon *userPolygon ) {
       break;
 
 
-    case triangle:
+    case trianglePolygon:
 
       break;
 
@@ -253,7 +281,6 @@ polygon *square ( polygon *userPolygon ) {
  */
 
 
-
 void drawPolygon ( polygon *userPolygon ) {
 
   for ( int i = 0; i < userPolygon->base; i++ ) {
@@ -277,5 +304,71 @@ void drawPolygon ( polygon *userPolygon ) {
   }
 
   freeMemory ( userPolygon );
+
+}
+
+
+
+/*
+ * Compara la cadena de carácteres que introdujo el usuario en el segundo argumento con la lista de
+ * polígonos validos y devuelve su posición dentro del enum.
+ */
+
+ 
+int searchPolygon ( const char *userPolygonChoice ) {
+
+  char polygons[polygonsLength + 1][polygonLength + 1] = {
+
+    "square",
+
+    "rectangle",
+
+    "triangle"
+
+  };
+
+  for ( int i = 0; i < polygonLength; i++ ) {
+
+    if ( strcmp ( userPolygonChoice, polygons[i] ) == 0 ) {
+
+      return i;
+
+    }
+
+  }
+
+}
+
+
+
+/*
+ * Esta función comprueba el tipo de polígono que introduce el usuario y devuelve true o false como
+ * resultado de la comprobación.
+ */
+
+
+bool isPolygon ( const char* polygon ) {
+
+  char polygons[polygonsLength + 1][polygonLength + 1] = {
+
+    "square",
+
+    "rectangle",
+
+    "triangle"
+
+  };
+
+  for ( int i = 0; i < polygonsLength; i++ ) {
+
+    if ( strcmp ( polygon, polygons[i] ) == 0 ) {
+
+      return true;
+
+    }
+
+  }
+
+  return false;
 
 }

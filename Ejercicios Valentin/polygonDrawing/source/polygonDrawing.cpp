@@ -144,7 +144,7 @@ void freeMemory ( polygon *userPolygon ) {
 
   delete [] userPolygon->polygon;
 
-  delete [] userPolygon;
+  delete userPolygon;
 
 }
 
@@ -314,7 +314,7 @@ void drawPolygon ( polygon *userPolygon ) {
  * polígonos validos y devuelve su posición dentro del enum.
  */
 
- 
+
 int searchPolygon ( const char *userPolygonChoice ) {
 
   char polygons[polygonsLength + 1][polygonLength + 1] = {
@@ -323,8 +323,8 @@ int searchPolygon ( const char *userPolygonChoice ) {
 
     "rectangle",
 
-    "triangle"
-
+    "triangle",
+    
   };
 
   for ( int i = 0; i < polygonLength; i++ ) {
@@ -336,6 +336,8 @@ int searchPolygon ( const char *userPolygonChoice ) {
     }
 
   }
+
+  return -1;
 
 }
 

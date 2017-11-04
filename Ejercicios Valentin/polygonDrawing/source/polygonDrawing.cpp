@@ -20,18 +20,15 @@ struct polygon {
 
 
 
-const int polygonsLength = 3;
-
-const int polygonLength = 9;
-
-
 enum polygonList {
 
   squarePolygon,
 
   rectanglePolygon,
 
-  trianglePolygon
+  trianglePolygon,
+
+  error
 
 };
 
@@ -44,24 +41,24 @@ polygon *reserveMemory ( const char *polygonType, const char *base, const char *
 
 void freeMemory ( polygon *userPolygon );
 
-bool checkData ( int argumentsLenght, const char *polygonType, const char *base, const char *height );
+bool checkData ( int argumentsLenght, const char *base, const char *height );
 
 void choicePolygon ( polygon *userPolygon );
 
-polygon *square ( polygon *userPolygon );
+void square ( polygon *userPolygon );
 
 void drawPolygon ( polygon *userPolygon );
 
-int searchPolygon ( const char *typePolygon );
+polygonList searchPolygon ( const char *typePolygon );
 
-bool isPolygon ( const char* polygon );
-
-
+void triangle ( polygon *userPolygon );
 
 
-int main(int argc, char const *argv[]) {
 
-  if ( checkData ( argc, argv[1], argv[2], argv[3] ) ) {
+
+int main ( int argc, char const *argv[] ) {
+
+  if ( checkData ( argc, argv[2], argv[3] ) ) {
 
     choicePolygon ( reserveMemory ( argv[1], argv[2], argv[3] ) );
 
@@ -113,12 +110,12 @@ polygon *reserveMemory ( const char *polygonType, const char *base, const char *
 
   userPolygon->height = atoi ( height );
 
-  userPolygon->polygon = new bool*[userPolygon->base];
+  userPolygon->polygon = new bool*[userPolygon->height];
 
 
-  for ( int i = 0; i < userPolygon->base; i++ ) {
+  for ( int i = 0; i < userPolygon->height; i++ ) {
 
-    userPolygon->polygon[i] = new bool [userPolygon->height];
+    userPolygon->polygon[i] = new bool [userPolygon->base];
 
   }
 
@@ -136,7 +133,7 @@ polygon *reserveMemory ( const char *polygonType, const char *base, const char *
 
 void freeMemory ( polygon *userPolygon ) {
 
-  for ( int i = 0; i < userPolygon->base; i++ ) {
+  for ( int i = 0; i < userPolygon->height; i++ ) {
 
     delete [] userPolygon->polygon[i];
 
@@ -156,19 +153,11 @@ void freeMemory ( polygon *userPolygon ) {
  */
 
 
-bool checkData ( int argumentsLenght, const char *polygonType, const char *base, const char *height ) {
+bool checkData ( int argumentsLenght, const char *base, const char *height ) {
 
   if ( !( argumentsLenght == 4 ) ) {
 
-    cout << "No has introducido los datos correctos." << endl;
-
-    return false;
-
-  }
-
-  if ( !isPolygon ( polygonType ) ) {
-
-    cout << "La figura que has introducido no es un polígono o no puedo dibujarla." << endl;
+    cout << "Introduce el polígono a dibujar (square, rectangle, triangle), su base y altura para dibujarlo." << endl;
 
     return false;
 
@@ -206,11 +195,17 @@ void choicePolygon ( polygon *userPolygon ) {
 
         cout << "Los dos lados deben ser iguales." << endl;
 
+        square ( userPolygon );
+
+        drawPolygon ( userPolygon );
+
         break;
 
       }
 
-      drawPolygon ( square ( userPolygon ) );
+      square ( userPolygon );
+
+      drawPolygon ( userPolygon );
 
       break;
 
@@ -219,18 +214,43 @@ void choicePolygon ( polygon *userPolygon ) {
 
       if ( userPolygon->base == userPolygon->height ) {
 
-        cout << "Los datos son los de un cuadrado, no de un rectángulo." << endl;
+        cout << "Los datos son los de un cuadrado" << endl;
+
+        square ( userPolygon );
+
+        drawPolygon ( userPolygon );
 
         break;
 
       }
 
-      drawPolygon ( square ( userPolygon ) );
+      square ( userPolygon );
+
+      drawPolygon ( userPolygon );
 
       break;
 
 
     case trianglePolygon:
+
+      if ( userPolygon->base != ( userPolygon->height * 2 ) ) {
+
+        cout << "La base debe de ser el doble de la altura" << endl;
+
+        break;
+
+      }
+
+      triangle ( userPolygon );
+
+      drawPolygon ( userPolygon );
+
+      break;
+
+
+    case error:
+
+      cout << "No has introducido una figura correcta." << endl;
 
       break;
 
@@ -246,21 +266,21 @@ void choicePolygon ( polygon *userPolygon ) {
  */
 
 
-polygon *square ( polygon *userPolygon ) {
+void square ( polygon *userPolygon ) {
 
-  for ( int i = 0; i <  userPolygon->base; i++ ) {
+  for ( int i = 0; i <  userPolygon->height; i++ ) {
 
-    for ( int j = 0; j < userPolygon->height; j++ ) {
+    for ( int j = 0; j < userPolygon->base; j++ ) {
 
 		userPolygon->polygon[i][j] = false;
 
-      if ( i == 0 || ( i + 1 ) == userPolygon->base ) {
+      if ( i == 0 || ( i + 1 ) == userPolygon->height ) {
 
         userPolygon->polygon[i][j] = true;
 
       }
 
-      if ( j == 0 || ( j + 1 ) == userPolygon->height ) {
+      if ( j == 0 || ( j + 1 ) == userPolygon->base ) {
 
         userPolygon->polygon[i][j] = true;
 
@@ -269,8 +289,6 @@ polygon *square ( polygon *userPolygon ) {
     }
 
   }
-
-  return userPolygon;
 
 }
 
@@ -283,9 +301,9 @@ polygon *square ( polygon *userPolygon ) {
 
 void drawPolygon ( polygon *userPolygon ) {
 
-  for ( int i = 0; i < userPolygon->base; i++ ) {
+  for ( int i = 0; i < userPolygon->height; i++ ) {
 
-    for ( int j = 0; j < userPolygon->height; j++ ) {
+    for ( int j = 0; j < userPolygon->base; j++ ) {
 
       if ( userPolygon->polygon[i][j] ) {
 
@@ -315,62 +333,65 @@ void drawPolygon ( polygon *userPolygon ) {
  */
 
 
-int searchPolygon ( const char *userPolygonChoice ) {
+polygonList searchPolygon ( const char *userPolygonChoice ) {
 
-  char polygons[polygonsLength + 1][polygonLength + 1] = {
+  if ( strcmp ( userPolygonChoice, "square" ) == 0 ) {
 
-    "square",
-
-    "rectangle",
-
-    "triangle",
-    
-  };
-
-  for ( int i = 0; i < polygonLength; i++ ) {
-
-    if ( strcmp ( userPolygonChoice, polygons[i] ) == 0 ) {
-
-      return i;
-
-    }
+    return squarePolygon;
 
   }
 
-  return -1;
+  if ( strcmp ( userPolygonChoice, "rectangle" ) == 0 ) {
+
+    return rectanglePolygon;
+
+  }
+
+  if ( strcmp ( userPolygonChoice, "triangle" ) == 0 ) {
+
+    return trianglePolygon;
+
+  }
+
+  return error;
 
 }
 
 
+void triangle ( polygon *userPolygon ) {
 
-/*
- * Esta función comprueba el tipo de polígono que introduce el usuario y devuelve true o false como
- * resultado de la comprobación.
- */
+  int vertex = userPolygon->base / 2;
 
+  int j = 0;
 
-bool isPolygon ( const char* polygon ) {
+  for ( int i = 0; i < userPolygon->height; i++ ) {
 
-  char polygons[polygonsLength + 1][polygonLength + 1] = {
+    if ( i == 0 ) {
 
-    "square",
+      userPolygon->polygon[i][vertex] = true;
 
-    "rectangle",
+    } else {
 
-    "triangle"
+      userPolygon->polygon[i][vertex + j] = true;
 
-  };
-
-  for ( int i = 0; i < polygonsLength; i++ ) {
-
-    if ( strcmp ( polygon, polygons[i] ) == 0 ) {
-
-      return true;
+      userPolygon->polygon[i][vertex - j] = true;
 
     }
 
-  }
+    if ( ( i + 1 ) == userPolygon->height ) {
 
-  return false;
+      for ( int l = vertex - j; l < userPolygon->base; l++ ) {
+
+        userPolygon->polygon[i][l] = true;
+
+      }
+
+    }
+
+    j++;
+
+
+
+  }
 
 }

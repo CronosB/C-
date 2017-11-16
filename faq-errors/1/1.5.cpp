@@ -48,7 +48,7 @@ int main(int argc, const char **argv) {
 
     for (size_t j = 0; j < argumentsLength; ++j) {
 
-      char* p, q;
+      char *p, *q;
 
       p = arguments[j];
 

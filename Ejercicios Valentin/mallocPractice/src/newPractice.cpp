@@ -29,7 +29,7 @@ int main ( int argc, char const *argv[] ) {
   cout << pChar << endl;
 
 
-  free ( pChar );
+  delete pChar;
 
   return 0;
 
@@ -55,7 +55,7 @@ bool checkData ( int argc ) {
 
 char *reserveMemory ( char const *argument ) {
 
-  char *pChar = (char*) malloc ( ( strlen ( argument ) + 1 ) * sizeof ( char ) );
+  char *pChar = new char;
 
   return pChar;
 

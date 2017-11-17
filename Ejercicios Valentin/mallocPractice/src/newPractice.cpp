@@ -29,7 +29,7 @@ int main ( int argc, char const *argv[] ) {
   cout << pChar << endl;
 
 
-  delete pChar;
+  delete [] pChar;
 
   return 0;
 
@@ -55,7 +55,7 @@ bool checkData ( int argc ) {
 
 char *reserveMemory ( char const *argument ) {
 
-  char *pChar = new char;
+  char *pChar = new char[ strlen ( argument ) + 1 ];
 
   return pChar;
 
